@@ -1,0 +1,19 @@
+.cars{
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.car-price{
+    color:gray;
+    text-align:center;
+}
+.car-name{
+    text-align:center;
+}
+
+
+.cars-table{
+    overflow: auto;
+    max-height:100%;
+}

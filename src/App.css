@@ -1,0 +1,49 @@
+
+.App {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  text-align: center;
+  background-color:#f2f2f2;
+  display:flex;
+  border:0.5px solid black;
+  margin:auto;
+  max-width:60%;
+  height: 800px;
+  overflow: auto;
+}
+
+.filters-wrapper{
+  width:25%;
+  margin:10px;
+  padding-top:10px;
+}
+
+.calendar-wrapper{
+  max-width:75%;
+  margin:10px;
+  padding-top:10px;
+}
+
+@media only screen and (max-width:1000px)
+{
+  .App{
+    max-width:90%;
+  }
+}
+
+@media only screen and (max-width:560px){
+  .App{
+    flex-direction: column;
+    padding:10px;
+  }
+  .calendar-wrapper{
+    margin:auto;
+    max-width:90%;
+    padding-bottom:10px;
+  }
+  .filters-wrapper{
+    width:90%;
+    margin:10px auto;
+  }
+}
+
+
