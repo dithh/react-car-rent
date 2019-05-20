@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import "./App.css";
 import "./HeaderComponent/HeaderComponent.css";
@@ -7,6 +8,7 @@ import "./CarsComponent/CarsComponent.css";
 import Filter from "./FiltersComponent/FiltersComponent";
 import Cars from "./CarsComponent/CarsComponent";
 import Header from "./HeaderComponent/HeaderComponent";
+import Booking from "./BookingComponent/BookingComponent";
 
 import { Paper } from "@material-ui/core";
 import Moment from "moment";
@@ -154,24 +156,55 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Paper className="filters-wrapper">
-          <Filter
-            carTypes={this.state.carTypes}
-            priceRange={this.state.priceRange}
-            typeFilters={this.state.typeFilters}
-            typeSelectedHandler={() => this.typeSelectedHandler}
-            carsFiltered={this.state.carsFiltered}
-            maxPrice={this.state.maxPrice}
-            changeMaxPriceHandler={() => this.changeMaxPriceHandler}
+        <BrowserRouter>
+          {/* <Paper className="filters-wrapper">
+            <Filter
+              carTypes={this.state.carTypes}
+              priceRange={this.state.priceRange}
+              typeFilters={this.state.typeFilters}
+              typeSelectedHandler={() => this.typeSelectedHandler}
+              carsFiltered={this.state.carsFiltered}
+              maxPrice={this.state.maxPrice}
+              changeMaxPriceHandler={() => this.changeMaxPriceHandler}
+            />
+          </Paper>
+          <Paper className="calendar-wrapper">
+            {" "}
+            <Cars
+              carsFiltered={this.state.carsFiltered}
+              daysCount={this.state.daysCount}
+            />
+          </Paper> */}
+          <Route
+            path="/"
+            exact
+            render={() => {
+              return (
+                <section className="main-view-wrapper">
+                  <Paper className="filters-wrapper">
+                    <Filter
+                      carTypes={this.state.carTypes}
+                      priceRange={this.state.priceRange}
+                      typeFilters={this.state.typeFilters}
+                      typeSelectedHandler={() => this.typeSelectedHandler}
+                      carsFiltered={this.state.carsFiltered}
+                      maxPrice={this.state.maxPrice}
+                      changeMaxPriceHandler={() => this.changeMaxPriceHandler}
+                    />
+                  </Paper>
+                  <Paper className="calendar-wrapper">
+                    {" "}
+                    <Cars
+                      carsFiltered={this.state.carsFiltered}
+                      daysCount={this.state.daysCount}
+                    />
+                  </Paper>
+                </section>
+              );
+            }}
           />
-        </Paper>
-        <Paper className="calendar-wrapper">
-          {" "}
-          <Cars
-            carsFiltered={this.state.carsFiltered}
-            daysCount={this.state.daysCount}
-          />
-        </Paper>
+          <Route path="/booking:car" exact component={Booking} />
+        </BrowserRouter>
       </div>
     );
   }

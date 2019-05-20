@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Table } from "@material-ui/core";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -33,7 +34,9 @@ const CarsComponent = props => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell />
+            <TableCell>
+              <Link to="/bookingSkoda Rapid">Book</Link>
+            </TableCell>
             <TableCell align="center">Mon </TableCell>
             <TableCell align="center">Tue</TableCell>
             <TableCell align="center">Wed </TableCell>

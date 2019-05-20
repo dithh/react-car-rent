@@ -1,12 +1,17 @@
 
-.App {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  text-align: center;
+.App{
   background-color:#f2f2f2;
+  max-width:60%;
+  text-align: center;
+  margin:auto;
+
+}
+
+.main-view-wrapper {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   display:flex;
   border:0.5px solid black;
   margin:auto;
-  max-width:60%;
   height: 800px;
   overflow: auto;
 }
@@ -31,7 +36,7 @@
 }
 
 @media only screen and (max-width:560px){
-  .App{
+  .main-view-wrapper{
     flex-direction: column;
     padding:10px;
   }
