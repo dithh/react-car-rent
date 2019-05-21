@@ -10,6 +10,7 @@ import Header from "../HeaderComponent/HeaderComponent";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import "../CarComponent/CarComponent.css";
+import moment from "moment";
 
 import Car from "../CarComponent/CarComponent";
 
@@ -33,19 +34,31 @@ const CarsComponent = props => {
     });
 
   let carsRows = filteredCars.map(car => {
+    let i = 0;
     let emptyCells = [];
     let daysCount = props.daysCount;
     while (daysCount) {
       emptyCells.push(
-        <TableCell>
+        <TableCell key={daysCount}>
           <Link to={"/booking" + car.name}>
-            <Button color="primary" variant="contained">
-              Book
+            <Button
+              value={i}
+              onClick={props.onDateChange.bind(
+                this,
+                moment()
+                  .add(i, "days")
+                  .format("YYYY-MM-DD")
+              )}
+              color="primary"
+              variant="contained"
+            >
+              Book!
             </Button>
           </Link>
         </TableCell>
       );
       daysCount--;
+      i++;
     }
     return (
       <TableRow key={car}>
@@ -58,7 +71,7 @@ const CarsComponent = props => {
   });
   return (
     <Paper class="cars-table">
-      <Header changeDateHandler={props.changeDateHandler} />
+      <Header changeDateHandler={() => props.changeDateHandler()} />
       <Table>
         <TableHead>
           <TableRow>
@@ -86,8 +99,18 @@ const mapStateToProps = state => {
     cars: state.cars,
     maxPrice: state.maxPrice,
     typeFilters: state.typeFilters,
-    daysCount: state.daysCount
+    daysCount: state.daysCount,
+    dateSelected: state.dateSelected
   };
 };
 
-export default connect(mapStateToProps)(CarsComponent);
+const mapDispatchToProps = dispatch => {
+  return {
+    onDateChange: date => dispatch({ type: "UPDATE_DATE", val: date })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(CarsComponent);

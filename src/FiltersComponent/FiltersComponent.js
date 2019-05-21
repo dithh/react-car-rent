@@ -63,7 +63,7 @@ const mapDispatchToProps = dispatch => {
     onUpdatePrice: event =>
       dispatch({ type: "UPDATE_MAX_PRICE", val: event.target.value }),
     OnUpdateFilters: event =>
-      dispatch({ type: "MODIFY_FILTERS_ARRAY", val: event.target.value })
+      dispatch({ type: "UPDATE_FILTERS_ARRAY", val: event.target.value })
   };
 };
 

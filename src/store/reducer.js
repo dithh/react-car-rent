@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const initialState = {
   cars: [
     {
@@ -55,14 +57,15 @@ const initialState = {
   typeFilters: ["Minivan", "Compact", "SUV", "Sport"],
   priceFilters: [80, 120, 150],
   maxPrice: "150",
-  daysCount: 7
+  daysCount: 7,
+  selectedDate: moment().format("YYYY-MM-DD")
 };
 
 const reducer = (state = initialState, action) => {
   if (action.type === "UPDATE_MAX_PRICE") {
     console.log("max price updated" + action.val);
     return { ...state, maxPrice: action.val };
-  } else if (action.type === "MODIFY_FILTERS_ARRAY") {
+  } else if (action.type === "UPDATE_FILTERS_ARRAY") {
     const typeFilters = [...state.typeFilters];
     if (typeFilters.includes(action.val)) {
       typeFilters.splice(typeFilters.indexOf(action.val), 1);
@@ -70,8 +73,10 @@ const reducer = (state = initialState, action) => {
       typeFilters.push(action.val);
     }
     return { ...state, typeFilters: typeFilters };
+  } else if (action.type === "UPDATE_DATE") {
+    console.log(action.val);
+    return { ...state, selectedDate: action.val };
   }
-
   return state;
 };
 
