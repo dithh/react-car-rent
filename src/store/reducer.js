@@ -88,7 +88,18 @@ const reducer = (state = initialState, action) => {
       ...state,
       dropOffDate: moment(action.val)
     };
+  } else if (action.type === "UPDATE_CURRENT_DATE") {
+    return {
+      ...state,
+      currentDate: _.cloneDeep(state.currentDate).add(action.val, "day")
+    };
+  } else if (action.type === "UPDATE_DAYS_COUNT") {
+    return {
+      ...state,
+      daysCount: action.val
+    };
   }
+
   return state;
 };
 

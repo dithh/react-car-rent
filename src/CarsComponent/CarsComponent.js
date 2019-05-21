@@ -10,7 +10,6 @@ import Header from "../HeaderComponent/HeaderComponent";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import "../CarComponent/CarComponent.css";
-import moment from "moment";
 
 import Car from "../CarComponent/CarComponent";
 
@@ -64,8 +63,8 @@ const CarsComponent = props => {
     );
   });
   return (
-    <Paper class="cars-table">
-      <Header changeDateHandler={() => props.changeDateHandler()} />
+    <Paper className="cars-table">
+      <Header />
       <Table>
         <TableHead>
           <TableRow>

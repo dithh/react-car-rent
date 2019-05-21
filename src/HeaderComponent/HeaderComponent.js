@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
-import Moment from "moment";
 import _ from "lodash";
 
 class Header extends Component {
@@ -12,13 +11,17 @@ class Header extends Component {
     );
     return (
       <div className="header">
-        <Button variant="outlined" color="primary">
+        <Button
+          variant="outlined"
+          color="primary"
+          onClick={this.props.onDaysCountChange.bind(this, 1)}
+        >
           Today
         </Button>
         <span>
           <span
             className="arrow"
-            // onClick={this.changeDateHandler.bind(this, "subtract")}
+            onClick={this.props.onDateChange.bind(this, -this.props.daysCount)}
           >
             {"<"}
           </span>{" "}
@@ -26,19 +29,31 @@ class Header extends Component {
           {endDate.format("DD MMM YYYY")}
           <span
             className="arrow"
-            // onClick={this.changeDateHandler.bind(this, "add")}
+            onClick={this.props.onDateChange.bind(this, this.props.daysCount)}
           >
             {">"}
           </span>
         </span>
         <span>
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.props.onDaysCountChange.bind(this, 7)}
+          >
             Week
           </Button>
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.props.onDaysCountChange.bind(this, 14)}
+          >
             2 Weeks
           </Button>
-          <Button variant="outlined" color="primary">
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={this.props.onDaysCountChange.bind(this, 31)}
+          >
             Month
           </Button>
         </span>
@@ -54,4 +69,16 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = dispatch => {
+  return {
+    onDateChange: value =>
+      dispatch({ type: "UPDATE_CURRENT_DATE", val: value }),
+    onDaysCountChange: value =>
+      dispatch({ type: "UPDATE_DAYS_COUNT", val: value })
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

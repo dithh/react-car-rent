@@ -10,7 +10,6 @@ import Cars from "./CarsComponent/CarsComponent";
 import Booking from "./BookingComponent/BookingComponent";
 
 import { Paper } from "@material-ui/core";
-import _ from "lodash";
 
 class App extends Component {
   render() {
