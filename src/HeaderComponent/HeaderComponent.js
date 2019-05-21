@@ -1,34 +1,15 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import Moment from "moment";
 import _ from "lodash";
 
 class Header extends Component {
-  state = {
-    moment: new Moment()
-  };
-
-  changeDateHandler = direction => {
-    let moment = _.cloneDeep(this.state.moment);
-    switch (direction) {
-      case "add":
-        moment.add(1, "week");
-        this.setState({
-          moment: moment
-        });
-        break;
-
-      case "subtract":
-        moment.subtract(1, "week");
-        this.setState({
-          moment: moment
-        });
-        break;
-    }
-  };
-
   render() {
-    let momentEnd = _.cloneDeep(this.state.moment);
+    let endDate = _.cloneDeep(this.props.currentDate).add(
+      this.props.daysCount - 1,
+      "day"
+    );
     return (
       <div className="header">
         <Button variant="outlined" color="primary">
@@ -37,15 +18,15 @@ class Header extends Component {
         <span>
           <span
             className="arrow"
-            onClick={this.changeDateHandler.bind(this, "subtract")}
+            // onClick={this.changeDateHandler.bind(this, "subtract")}
           >
             {"<"}
           </span>{" "}
-          {this.state.moment.format("DD MMM Y")} -{" "}
-          {momentEnd.add(1, "week").format("DD MMM Y")}{" "}
+          {this.props.currentDate.format("DD MMM")} -
+          {endDate.format("DD MMM YYYY")}
           <span
             className="arrow"
-            onClick={this.changeDateHandler.bind(this, "add")}
+            // onClick={this.changeDateHandler.bind(this, "add")}
           >
             {">"}
           </span>
@@ -66,4 +47,11 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = state => {
+  return {
+    currentDate: state.currentDate,
+    daysCount: state.daysCount
+  };
+};
+
+export default connect(mapStateToProps)(Header);

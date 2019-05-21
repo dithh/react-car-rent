@@ -1,4 +1,5 @@
 import moment from "moment";
+import _ from "lodash";
 
 const initialState = {
   cars: [
@@ -58,7 +59,9 @@ const initialState = {
   priceFilters: [80, 120, 150],
   maxPrice: "150",
   daysCount: 7,
-  selectedDate: moment().format("YYYY-MM-DD")
+  currentDate: moment(),
+  pickUpDate: moment(),
+  dropOffDate: moment()
 };
 
 const reducer = (state = initialState, action) => {
@@ -73,9 +76,18 @@ const reducer = (state = initialState, action) => {
       typeFilters.push(action.val);
     }
     return { ...state, typeFilters: typeFilters };
-  } else if (action.type === "UPDATE_DATE") {
+  } else if (action.type === "UPDATE_PICKUP_DATE") {
+    return {
+      ...state,
+      pickUpDate: _.cloneDeep(state.currentDate).add(action.val, "day"),
+      dropOffDate: _.cloneDeep(state.currentDate).add(action.val, "day")
+    };
+  } else if (action.type === "UPDATE_DROPOFF_DATE") {
     console.log(action.val);
-    return { ...state, selectedDate: action.val };
+    return {
+      ...state,
+      dropOffDate: moment(action.val)
+    };
   }
   return state;
 };

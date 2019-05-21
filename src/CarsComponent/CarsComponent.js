@@ -42,13 +42,7 @@ const CarsComponent = props => {
         <TableCell key={daysCount}>
           <Link to={"/booking" + car.name}>
             <Button
-              value={i}
-              onClick={props.onDateChange.bind(
-                this,
-                moment()
-                  .add(i, "days")
-                  .format("YYYY-MM-DD")
-              )}
+              onClick={props.onDateChange.bind(this, i)}
               color="primary"
               variant="contained"
             >
@@ -75,9 +69,7 @@ const CarsComponent = props => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>
-              <Link to="/bookingSkoda Rapid">Book</Link>
-            </TableCell>
+            <TableCell />
             <TableCell align="center">Mon </TableCell>
             <TableCell align="center">Tue</TableCell>
             <TableCell align="center">Wed </TableCell>
@@ -99,14 +91,13 @@ const mapStateToProps = state => {
     cars: state.cars,
     maxPrice: state.maxPrice,
     typeFilters: state.typeFilters,
-    daysCount: state.daysCount,
-    dateSelected: state.dateSelected
+    daysCount: state.daysCount
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDateChange: date => dispatch({ type: "UPDATE_DATE", val: date })
+    onDateChange: date => dispatch({ type: "UPDATE_PICKUP_DATE", val: date })
   };
 };
 
