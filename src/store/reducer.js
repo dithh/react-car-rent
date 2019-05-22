@@ -7,61 +7,71 @@ const initialState = {
       name: "Toyota Corolla",
       price: 50,
       type: "Compact",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 1
     },
     {
       name: "Suzuki Grand Vitara",
       price: 90,
       type: "SUV",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 2
     },
     {
       name: "Dodge Grand Caravan",
       price: 150,
       type: "Minivan",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 3
     },
     {
       name: "Jeep Cheeroke",
       price: 100,
       type: "SUV",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 4
     },
     {
       name: "Skoda Rapid",
       price: 80,
       type: "Compact",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 5
     },
     {
       name: "Range Rover",
       price: 150,
       type: "SUV",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 6
     },
     {
       name: "BMW Z4",
       price: 130,
       type: "Sport",
-      daysBooked: []
+      daysBooked: [],
+      id: 7
     },
     {
       name: "Toyota Supra",
       price: 150,
       type: "Sport",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 8
     },
     {
       name: "Skoda Fabia",
       price: 30,
       type: "Compact",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 9
     },
     {
       name: "Fiat Bravo",
       price: 40,
       type: "Compact",
-      daysBooked: ["2019-05-22"]
+      daysBooked: ["2019-05-22"],
+      id: 10
     }
   ],
   carTypes: ["Compact", "Minivan", "SUV", "Sport"],
@@ -71,12 +81,12 @@ const initialState = {
   daysCount: 7,
   currentDate: moment(),
   pickUpDate: moment(),
-  dropOffDate: moment()
+  dropOffDate: moment(),
+  selectedCarId: 10
 };
 
 const reducer = (state = initialState, action) => {
   if (action.type === "UPDATE_MAX_PRICE") {
-    console.log("max price updated" + action.val);
     return { ...state, maxPrice: action.val };
   } else if (action.type === "UPDATE_FILTERS_ARRAY") {
     const typeFilters = [...state.typeFilters];
@@ -107,6 +117,26 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       daysCount: action.val
+    };
+  } else if (action.type === "UPDATE_SELECTED_CAR_INDEX") {
+    console.log("index updated:" + action.id);
+    return {
+      ...state,
+      selectedCarId: action.id
+    };
+  } else if (action.type === "UPDATE_BOOKED_DAYS") {
+    let updatedCar = {
+      ...state.cars.find(car => car.id === state.selectedCarId)
+    };
+    if (!updatedCar.daysBooked.includes(action.date))
+      updatedCar.daysBooked.push(action.date);
+    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
+    let updatedCars = state.cars.map(car => car);
+    updatedCars[index] = updatedCar;
+    console.log(updatedCars[index]);
+    return {
+      ...state,
+      cars: updatedCars
     };
   }
 

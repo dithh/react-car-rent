@@ -39,14 +39,6 @@ const CarsComponent = props => {
     let emptyCells = [];
     let daysCount = props.daysCount;
     while (daysCount) {
-      console.log(
-        car.daysBooked.includes(
-          props.currentDate
-            .clone()
-            .add(i, "day")
-            .format("YYYY-MM-DD")
-        )
-      );
       emptyCells.push(
         <TableCell key={daysCount}>
           <Link
@@ -64,7 +56,7 @@ const CarsComponent = props => {
           >
             {" "}
             <Button
-              onClick={props.onDateChange.bind(this, i)}
+              onClick={props.onDateChange.bind(this, i, car.id)}
               color="primary"
               variant="text"
             >
@@ -99,7 +91,6 @@ const CarsComponent = props => {
     daysCount--;
     count++;
   }
-  console.log(tableHeader);
   return (
     <Paper className="cars-table">
       <Header />
@@ -129,7 +120,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDateChange: date => dispatch({ type: "UPDATE_PICKUP_DATE", val: date })
+    onDateChange: (date, id) => {
+      dispatch({ type: "UPDATE_PICKUP_DATE", val: date });
+      dispatch({ type: "UPDATE_SELECTED_CAR_INDEX", id: id });
+    }
   };
 };
 

@@ -22,18 +22,32 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit,
     width: 200
-  },
-  dense: {
-    marginTop: 19
   }
 });
 
 const Booking = props => {
   const { classes } = props;
+
   const onBooking = () => {
     if (!props.pickUpDate.isAfter(props.dropOffDate)) {
-      console.log("car booked");
-      props.history.push({ pathname: "/" });
+      let daysToBook = Math.ceil(
+        props.dropOffDate.diff(props.pickUpDate, "days", true)
+      );
+      for (daysToBook; daysToBook >= 0; daysToBook--) {
+        props.onUpdateBookedDays(
+          props.pickUpDate
+            .clone()
+            .add(daysToBook, "day")
+            .format("YYYY-MM-DD")
+        );
+        // console.log(
+        //   props.pickUpDate
+        //     .clone()
+        //     .add(daysToBook, "day")
+        //     .format("YYYY-MM-DD")
+        // );
+      }
+      // props.history.push({ pathname: "/" });
     } else {
       alert("Select valid date!");
     }
@@ -46,7 +60,11 @@ const Booking = props => {
           className="form-input"
           id="car-selected"
           label="Car selected"
-          value={props.match.params.car}
+          value={
+            props.cars.find(car => {
+              return car.id === props.selectedCarId;
+            }).name
+          }
           disabled
         />
         <TextField
@@ -66,7 +84,7 @@ const Booking = props => {
           type="date"
           value={props.dropOffDate.format("YYYY-MM-DD")}
         />
-        <span class="controls-wrapper">
+        <span className="controls-wrapper">
           <Link to="/">Go back!</Link>
           <Button onClick={onBooking} color="primary" variant="contained">
             Book it!
@@ -80,14 +98,18 @@ const Booking = props => {
 const mapStateToProps = state => {
   return {
     pickUpDate: state.pickUpDate,
-    dropOffDate: state.dropOffDate
+    dropOffDate: state.dropOffDate,
+    selectedCarId: state.selectedCarId,
+    cars: state.cars
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onDropOffDateUpdate: event =>
-      dispatch({ type: "UPDATE_DROPOFF_DATE", val: event.target.value })
+      dispatch({ type: "UPDATE_DROPOFF_DATE", val: event.target.value }),
+    onUpdateBookedDays: date =>
+      dispatch({ type: "UPDATE_BOOKED_DAYS", date: date })
   };
 };
 
