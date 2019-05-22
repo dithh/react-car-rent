@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Checkbox } from "@material-ui/core";
-import "../FiltersComponent/FiltersComponent.css";
 import "react-input-range/lib/css/index.css";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";

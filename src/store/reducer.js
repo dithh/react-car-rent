@@ -6,52 +6,62 @@ const initialState = {
     {
       name: "Toyota Corolla",
       price: 50,
-      type: "Compact"
+      type: "Compact",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Suzuki Grand Vitara",
       price: 90,
-      type: "SUV"
+      type: "SUV",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Dodge Grand Caravan",
       price: 150,
-      type: "Minivan"
+      type: "Minivan",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Jeep Cheeroke",
       price: 100,
-      type: "SUV"
+      type: "SUV",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Skoda Rapid",
       price: 80,
-      type: "Compact"
+      type: "Compact",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Range Rover",
       price: 150,
-      type: "SUV"
+      type: "SUV",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "BMW Z4",
       price: 130,
-      type: "Sport"
+      type: "Sport",
+      daysBooked: []
     },
     {
       name: "Toyota Supra",
       price: 150,
-      type: "Sport"
+      type: "Sport",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Skoda Fabia",
       price: 30,
-      type: "Compact"
+      type: "Compact",
+      daysBooked: ["2019-05-22"]
     },
     {
       name: "Fiat Bravo",
       price: 40,
-      type: "Compact"
+      type: "Compact",
+      daysBooked: ["2019-05-22"]
     }
   ],
   carTypes: ["Compact", "Minivan", "SUV", "Sport"],

@@ -14,7 +14,9 @@ import "../CarComponent/CarComponent.css";
 import Car from "../CarComponent/CarComponent";
 
 const CarsComponent = props => {
+  let daysCount = props.daysCount;
   let filteredCars = [];
+  let tableHeader = [];
 
   props.typeFilters.forEach(filter => {
     props.cars.forEach(car => {
@@ -37,9 +39,29 @@ const CarsComponent = props => {
     let emptyCells = [];
     let daysCount = props.daysCount;
     while (daysCount) {
+      console.log(
+        car.daysBooked.includes(
+          props.currentDate
+            .clone()
+            .add(i, "day")
+            .format("YYYY-MM-DD")
+        )
+      );
       emptyCells.push(
         <TableCell key={daysCount}>
-          <Link to={"/booking" + car.name}>
+          <Link
+            className={
+              car.daysBooked.includes(
+                props.currentDate
+                  .clone()
+                  .add(i, "day")
+                  .format("YYYY-MM-DD")
+              )
+                ? "disabled-link"
+                : null
+            }
+            to={"/booking" + car.name}
+          >
             {" "}
             <Button
               onClick={props.onDateChange.bind(this, i)}
@@ -63,6 +85,21 @@ const CarsComponent = props => {
       </TableRow>
     );
   });
+
+  let count = 0;
+  while (daysCount) {
+    tableHeader.push(
+      <TableCell>
+        {props.currentDate
+          .clone()
+          .add(count, "day")
+          .format("ddd")}
+      </TableCell>
+    );
+    daysCount--;
+    count++;
+  }
+  console.log(tableHeader);
   return (
     <Paper className="cars-table">
       <Header />
@@ -70,13 +107,7 @@ const CarsComponent = props => {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell align="center">Mon </TableCell>
-            <TableCell align="center">Tue</TableCell>
-            <TableCell align="center">Wed </TableCell>
-            <TableCell align="center">Thu</TableCell>
-            <TableCell align="center">Fri</TableCell>
-            <TableCell align="center">Sat</TableCell>
-            <TableCell align="center">Sun</TableCell>
+            {tableHeader}
           </TableRow>
         </TableHead>
         {carsRows}
@@ -91,7 +122,8 @@ const mapStateToProps = state => {
     cars: state.cars,
     maxPrice: state.maxPrice,
     typeFilters: state.typeFilters,
-    daysCount: state.daysCount
+    daysCount: state.daysCount,
+    currentDate: state.currentDate
   };
 };
 

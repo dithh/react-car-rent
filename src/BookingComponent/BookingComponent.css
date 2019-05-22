@@ -1,8 +1,8 @@
-.flex{
-    display:flex;
-    flex-direction: column;
-    align-items: center;
+.form-wrapper{
+    padding:10px;
 }
-.form-input{
-    margin:100px;
+
+.controls-wrapper{
+    display:flex;
+    justify-content: space-between;
 }

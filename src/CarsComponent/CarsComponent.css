@@ -17,3 +17,7 @@
     overflow: auto;
     max-height:100%;
 }
+
+.disabled-link{
+    pointer-events:none;
+}
