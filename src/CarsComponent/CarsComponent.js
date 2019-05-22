@@ -40,12 +40,13 @@ const CarsComponent = props => {
       emptyCells.push(
         <TableCell key={daysCount}>
           <Link to={"/booking" + car.name}>
+            {" "}
             <Button
               onClick={props.onDateChange.bind(this, i)}
               color="primary"
-              variant="contained"
+              variant="text"
             >
-              Book!
+              Book
             </Button>
           </Link>
         </TableCell>
