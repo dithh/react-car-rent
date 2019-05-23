@@ -1,13 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 
-import {} from "../BookingComponent/BookingComponent.css";
+import "../BookingComponent/BookingComponent.css";
 
 const styles = theme => ({
   container: {
@@ -40,14 +39,8 @@ const Booking = props => {
             .add(daysToBook, "day")
             .format("YYYY-MM-DD")
         );
-        // console.log(
-        //   props.pickUpDate
-        //     .clone()
-        //     .add(daysToBook, "day")
-        //     .format("YYYY-MM-DD")
-        // );
       }
-      // props.history.push({ pathname: "/" });
+      props.history.push({ pathname: "/" });
     } else {
       alert("Select valid date!");
     }

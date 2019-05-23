@@ -5,10 +5,9 @@ import _ from "lodash";
 
 class Header extends Component {
   render() {
-    let endDate = _.cloneDeep(this.props.currentDate).add(
-      this.props.daysCount - 1,
-      "day"
-    );
+    let endDate = this.props.currentDate
+      .clone()
+      .add(this.props.daysCount - 1, "day");
     return (
       <div className="header">
         <Button

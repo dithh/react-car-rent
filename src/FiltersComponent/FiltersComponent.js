@@ -8,6 +8,7 @@ import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
+import Button from "@material-ui/core/Button";
 
 class FiltersComponent extends Component {
   render() {
@@ -44,6 +45,9 @@ class FiltersComponent extends Component {
           <FormControlLabel value="120" control={<Radio />} label={120} />
           <FormControlLabel value="150" control={<Radio />} label={150} />
         </RadioGroup>
+        <Button color="primary" onClick={this.props.onOpenDialog}>
+          Add a car
+        </Button>
       </FormControl>
     );
   }
@@ -62,7 +66,10 @@ const mapDispatchToProps = dispatch => {
     onUpdatePrice: event =>
       dispatch({ type: "UPDATE_MAX_PRICE", val: event.target.value }),
     OnUpdateFilters: event =>
-      dispatch({ type: "UPDATE_FILTERS_ARRAY", val: event.target.value })
+      dispatch({ type: "UPDATE_FILTERS_ARRAY", val: event.target.value }),
+    onOpenDialog: () => {
+      dispatch({ type: "SWITCH_DIALOG" });
+    }
   };
 };
 

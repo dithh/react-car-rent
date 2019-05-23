@@ -1,5 +1,4 @@
 import moment from "moment";
-import _ from "lodash";
 
 const initialState = {
   cars: [
@@ -82,7 +81,8 @@ const initialState = {
   currentDate: moment(),
   pickUpDate: moment(),
   dropOffDate: moment(),
-  selectedCarId: 10
+  selectedCarId: 1,
+  isDialogOpen: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -99,8 +99,8 @@ const reducer = (state = initialState, action) => {
   } else if (action.type === "UPDATE_PICKUP_DATE") {
     return {
       ...state,
-      pickUpDate: _.cloneDeep(state.currentDate).add(action.val, "day"),
-      dropOffDate: _.cloneDeep(state.currentDate).add(action.val, "day")
+      pickUpDate: state.currentDate.clone().add(action.val, "day"),
+      dropOffDate: state.currentDate.clone().add(action.val, "day")
     };
   } else if (action.type === "UPDATE_DROPOFF_DATE") {
     console.log(action.val);
@@ -111,7 +111,7 @@ const reducer = (state = initialState, action) => {
   } else if (action.type === "UPDATE_CURRENT_DATE") {
     return {
       ...state,
-      currentDate: _.cloneDeep(state.currentDate).add(action.val, "day")
+      currentDate: state.currentDate.clone().add(action.val, "day")
     };
   } else if (action.type === "UPDATE_DAYS_COUNT") {
     return {
@@ -119,7 +119,6 @@ const reducer = (state = initialState, action) => {
       daysCount: action.val
     };
   } else if (action.type === "UPDATE_SELECTED_CAR_INDEX") {
-    console.log("index updated:" + action.id);
     return {
       ...state,
       selectedCarId: action.id
@@ -137,6 +136,26 @@ const reducer = (state = initialState, action) => {
     return {
       ...state,
       cars: updatedCars
+    };
+  } else if (action.type === "ADD_NEW_CAR") {
+    const cars = [...state.cars];
+    if (
+      cars.find(car => car.name.toLowerCase() === action.car.name.toLowerCase())
+    ) {
+      alert("This car already exists");
+      return { ...state };
+    }
+    action.car.id = state.cars.length + 2;
+    cars.push(action.car);
+    return {
+      ...state,
+      cars: cars
+    };
+  } else if (action.type === "SWITCH_DIALOG") {
+    let isDialogOpen = !state.isDialogOpen;
+    return {
+      ...state,
+      isDialogOpen
     };
   }
 
