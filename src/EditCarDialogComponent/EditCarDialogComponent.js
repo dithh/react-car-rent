@@ -30,44 +30,40 @@ const styles = theme => ({
 
 class EditDialog extends Component {
   state = {
-    car: {
-      name: "",
-      price: 0,
-      type: "",
-      daysBooked: []
-    }
+    carSelected: {}
+  };
+
+  onCarSavedHandler = car => {
+    this.props.onSave(car);
+    this.props.onClose();
   };
 
   onTypeSelectedChangeHandler = event => {
-    let car = { ...this.state.car };
+    let car = { ...this.state.carSelected };
     car.type = event.target.value;
-    this.setState({ car: car });
+    this.setState({ carSelected: car });
   };
 
   onCarNameChangeHandler = event => {
-    let car = { ...this.state.car };
+    let car = { ...this.state.carSelected };
     car.name = event.target.value;
-    this.setState({ car: car });
+    this.setState({ carSelected: car });
   };
 
   onCarPriceChangeHandler = event => {
-    let car = { ...this.state.car };
+    let car = { ...this.state.carSelected };
     car.price = event.target.value;
-    this.setState({ car: car });
+    this.setState({ carSelected: car });
   };
 
-  onCarAdd = car => {
-    if (
-      this.state.car.name != "" &&
-      this.state.car.price &&
-      this.state.car.type != ""
-    ) {
-      this.props.onCloseDialog();
-      this.props.onAddCar(car);
-    } else {
-      alert("fill up the form");
-    }
-  };
+  constructor(props) {
+    super(props);
+    let carSelected = {
+      ...props.cars.find(car => car.id === props.selectedCarId)
+    };
+    console.log(carSelected);
+    this.state.carSelected = carSelected;
+  }
 
   render() {
     let { classes } = this.props;
@@ -79,67 +75,78 @@ class EditDialog extends Component {
       );
     });
     return (
-      <form>
-        <Dialog open={this.props.isDialogOpen}>
-          <DialogTitle id="form-dialog-title">Add new car</DialogTitle>
+      <Dialog className={"add-car-dialog"} open={this.props.isDialogOpen}>
+        <form>
+          <DialogTitle id="form-dialog-title">Edit car</DialogTitle>
           <DialogContent className={classes.container}>
             <TextField
               className={classes.textField}
               id="car-selected"
               label="Car name"
               type="text"
-              value={this.state.car.name}
               onChange={this.onCarNameChangeHandler}
+              value={this.state.carSelected.name}
             />
             <TextField
               className={classes.textField}
-              value={this.state.car.price}
-              onChange={this.onCarPriceChangeHandler}
               id="start-date"
               label="Price per day"
               type="number"
+              value={this.state.carSelected.price}
+              onChange={this.onCarPriceChangeHandler}
             />
             <FormControl>
               <InputLabel>Car Type</InputLabel>
               <Select
                 onChange={this.onTypeSelectedChangeHandler}
-                value={this.state.car.type}
                 className={classes.textField}
+                value={this.state.carSelected.type}
               >
                 {carTypesMenuItems}
               </Select>
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onCloseDialog} color="secondary">
-              Go back
-            </Button>
+            <Button onClick={this.props.onClose}>Go back</Button>
+            <Button color="secondary">Delete</Button>
             <Button
-              onClick={this.onCarAdd.bind(this, this.state.car)}
+              onClick={this.onCarSavedHandler.bind(
+                this,
+                this.state.carSelected
+              )}
               color="primary"
             >
               {" "}
-              Add a car!
+              Save!
             </Button>
           </DialogActions>
-        </Dialog>
-      </form>
+        </form>
+      </Dialog>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { isDialogOpen: state.isDialogOpen, carTypes: state.carTypes };
+  return {
+    isDialogOpen: state.isEditCarDialogOpen,
+    carTypes: state.carTypes,
+    selectedCarId: state.selectedCarId,
+    cars: state.cars
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddCar: car => {
-      {
-        dispatch({ type: "ADD_NEW_CAR", car: car });
+    onSave: car => {
+      if (car.name && car.price && car.type) {
+        dispatch({ type: "CAR_EDITED", car: car });
+      } else {
+        alert("Fill up the form");
       }
     },
-    onCloseDialog: () => dispatch({ type: "SWITCH_DIALOG" })
+    onClose: () => {
+      dispatch({ type: "SWITCH_EDIT_DIALOG" });
+    }
   };
 };
 

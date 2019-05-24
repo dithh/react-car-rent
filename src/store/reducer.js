@@ -81,8 +81,9 @@ const initialState = {
   currentDate: moment(),
   pickUpDate: moment(),
   dropOffDate: moment(),
-  selectedCarId: 1,
-  isDialogOpen: false
+  selectedCarId: null,
+  isAddCarDialogOpen: false,
+  isEditCarDialogOpen: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -151,11 +152,26 @@ const reducer = (state = initialState, action) => {
       ...state,
       cars: cars
     };
-  } else if (action.type === "SWITCH_DIALOG") {
-    let isDialogOpen = !state.isDialogOpen;
+  } else if (action.type === "SWITCH_ADD_DIALOG") {
+    let isAddCarDialogOpen = !state.isAddCarDialogOpen;
     return {
       ...state,
-      isDialogOpen
+      isAddCarDialogOpen
+    };
+  } else if (action.type === "SWITCH_EDIT_DIALOG") {
+    let isEditCarDialogOpen = !state.isEditCarDialogOpen;
+    return {
+      ...state,
+      isEditCarDialogOpen
+    };
+  } else if (action.type === "CAR_EDITED") {
+    console.log(action.car);
+    let updatedCars = state.cars.map(car => car);
+    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
+    updatedCars[index] = action.car;
+    return {
+      ...state,
+      cars: updatedCars
     };
   }
 

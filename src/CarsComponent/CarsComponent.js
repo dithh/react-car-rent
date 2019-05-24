@@ -12,6 +12,7 @@ import { Paper } from "@material-ui/core";
 
 import "../CarComponent/CarComponent.css";
 import Car from "../CarComponent/CarComponent";
+import EditCar from "../EditCarDialogComponent/EditCarDialogComponent";
 
 const CarsComponent = props => {
   let daysCount = props.daysCount;
@@ -28,7 +29,7 @@ const CarsComponent = props => {
 
   filteredCars = filteredCars
     .filter(car => {
-      return car.price <= props.maxPrice;
+      return parseInt(car.price) <= props.maxPrice;
     })
     .sort((a, b) => {
       return a.price - b.price;
@@ -91,8 +92,12 @@ const CarsComponent = props => {
     daysCount--;
     count++;
   }
+
+  let editCar = props.isDialogOpen ? <EditCar /> : null;
+
   return (
     <Paper className="cars-table">
+      {editCar}
       <Header />
       <Table>
         <TableHead>
@@ -114,7 +119,8 @@ const mapStateToProps = state => {
     maxPrice: state.maxPrice,
     typeFilters: state.typeFilters,
     daysCount: state.daysCount,
-    currentDate: state.currentDate
+    currentDate: state.currentDate,
+    isDialogOpen: state.isEditCarDialogOpen
   };
 };
 

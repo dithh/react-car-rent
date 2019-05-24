@@ -8,7 +8,6 @@ import "./CarsComponent/CarsComponent.css";
 import Filter from "./FiltersComponent/FiltersComponent";
 import Cars from "./CarsComponent/CarsComponent";
 import Booking from "./BookingComponent/BookingComponent";
-import EditDialog from "./EditDialogComponent/EditDialogComponent";
 
 class App extends Component {
   render() {
@@ -35,7 +34,6 @@ class App extends Component {
               );
             }}
           />
-          <EditDialog />
           <Route path="/booking:car" exact component={Booking} />
         </BrowserRouter>
       </div>
