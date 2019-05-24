@@ -38,6 +38,13 @@ class EditDialog extends Component {
     this.props.onClose();
   };
 
+  onCarDeletedHandler = () => {
+    if (window.confirm("Do you realy want to delete it?")) {
+      this.props.onDelete();
+      this.props.onClose();
+    }
+  };
+
   onTypeSelectedChangeHandler = event => {
     let car = { ...this.state.carSelected };
     car.type = event.target.value;
@@ -108,7 +115,9 @@ class EditDialog extends Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Go back</Button>
-            <Button color="secondary">Delete</Button>
+            <Button onClick={this.onCarDeletedHandler} color="secondary">
+              Delete
+            </Button>
             <Button
               onClick={this.onCarSavedHandler.bind(
                 this,
@@ -146,6 +155,9 @@ const mapDispatchToProps = dispatch => {
     },
     onClose: () => {
       dispatch({ type: "SWITCH_EDIT_DIALOG" });
+    },
+    onDelete: () => {
+      dispatch({ type: "CAR_DELETED" });
     }
   };
 };

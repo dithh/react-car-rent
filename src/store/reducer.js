@@ -173,6 +173,15 @@ const reducer = (state = initialState, action) => {
       ...state,
       cars: updatedCars
     };
+  } else if (action.type === "CAR_DELETED") {
+    let updatedCars = state.cars.map(car => car);
+    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
+    updatedCars.splice(index, 1);
+    console.log(updatedCars);
+    return {
+      ...state,
+      cars: updatedCars
+    };
   }
 
   return state;
