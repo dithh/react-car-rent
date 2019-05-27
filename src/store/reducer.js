@@ -1,5 +1,5 @@
 import moment from "moment";
-import { switchCase } from "@babel/types";
+import * as actionTypes from "./actions";
 
 const initialState = {
   cars: [
@@ -99,10 +99,10 @@ const reducer = (state = initialState, action) => {
   };
 
   switch (action.type) {
-    case "UPDATE_MAX_PRICE":
+    case actionTypes.UPDATE_MAX_PRICE:
       return { ...state, maxPrice: action.val };
 
-    case "UPDATE_FILTERS_ARRAY":
+    case actionTypes.UPDATE_FILTERS_ARRAY:
       if (typeFilters.includes(action.val)) {
         typeFilters.splice(typeFilters.indexOf(action.val), 1);
       } else {
@@ -110,34 +110,34 @@ const reducer = (state = initialState, action) => {
       }
       return { ...state, typeFilters: typeFilters };
 
-    case "UPDATE_PICKUP_DATE":
+    case actionTypes.UPDATE_PICKUP_DATE:
       return {
         ...state,
         pickUpDate: state.currentDate.clone().add(action.val, "day"),
         dropOffDate: state.currentDate.clone().add(action.val, "day")
       };
-    case "UPDATE_DROPOFF_DATE":
+    case actionTypes.UPDATE_DROPOFF_DATE:
       return {
         ...state,
         dropOffDate: moment(action.val)
       };
 
-    case "UPDATE_CURRENT_DATE":
+    case actionTypes.UPDATE_CURRENT_DATE:
       return {
         ...state,
         currentDate: state.currentDate.clone().add(action.val, "day")
       };
-    case "UPDATE_DAYS_COUNT":
+    case actionTypes.UPDATE_DAYS_COUNT:
       return {
         ...state,
         daysCount: action.val
       };
-    case "UPDATE_SELECTED_CAR_INDEX":
+    case actionTypes.UPDATE_SELECTED_CAR_INDEX:
       return {
         ...state,
         selectedCarId: action.id
       };
-    case "UPDATE_BOOKED_DAYS":
+    case actionTypes.UPDATE_BOOKED_DAYS:
       if (!updatedCar.daysBooked.includes(action.date))
         updatedCar.daysBooked.push(action.date);
       updatedCars[index] = updatedCar;
@@ -145,7 +145,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         cars: updatedCars
       };
-    case "ADD_NEW_CAR":
+    case actionTypes.ADD_NEW_CAR:
       if (
         cars.find(
           car => car.name.toLowerCase() === action.car.name.toLowerCase()
@@ -160,23 +160,23 @@ const reducer = (state = initialState, action) => {
         ...state,
         cars: cars
       };
-    case "SWITCH_ADD_DIALOG":
+    case actionTypes.SWITCH_ADD_DIALOG:
       return {
         ...state,
         isAddCarDialogOpen
       };
-    case "SWITCH_EDIT_DIALOG":
+    case actionTypes.SWITCH_EDIT_DIALOG:
       return {
         ...state,
         isEditCarDialogOpen
       };
-    case "CAR_EDITED":
+    case actionTypes.CAR_EDITED:
       updatedCars[index] = action.car;
       return {
         ...state,
         cars: updatedCars
       };
-    case "CAR_DELETED":
+    case actionTypes.CAR_DELETED:
       updatedCars.splice(index, 1);
       return {
         ...state,
