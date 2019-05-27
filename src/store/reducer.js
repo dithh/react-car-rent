@@ -1,4 +1,5 @@
 import moment from "moment";
+import { switchCase } from "@babel/types";
 
 const initialState = {
   cars: [
@@ -87,101 +88,100 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  if (action.type === "UPDATE_MAX_PRICE") {
-    return { ...state, maxPrice: action.val };
-  } else if (action.type === "UPDATE_FILTERS_ARRAY") {
-    const typeFilters = [...state.typeFilters];
-    if (typeFilters.includes(action.val)) {
-      typeFilters.splice(typeFilters.indexOf(action.val), 1);
-    } else {
-      typeFilters.push(action.val);
-    }
-    return { ...state, typeFilters: typeFilters };
-  } else if (action.type === "UPDATE_PICKUP_DATE") {
-    return {
-      ...state,
-      pickUpDate: state.currentDate.clone().add(action.val, "day"),
-      dropOffDate: state.currentDate.clone().add(action.val, "day")
-    };
-  } else if (action.type === "UPDATE_DROPOFF_DATE") {
-    console.log(action.val);
-    return {
-      ...state,
-      dropOffDate: moment(action.val)
-    };
-  } else if (action.type === "UPDATE_CURRENT_DATE") {
-    return {
-      ...state,
-      currentDate: state.currentDate.clone().add(action.val, "day")
-    };
-  } else if (action.type === "UPDATE_DAYS_COUNT") {
-    return {
-      ...state,
-      daysCount: action.val
-    };
-  } else if (action.type === "UPDATE_SELECTED_CAR_INDEX") {
-    return {
-      ...state,
-      selectedCarId: action.id
-    };
-  } else if (action.type === "UPDATE_BOOKED_DAYS") {
-    let updatedCar = {
-      ...state.cars.find(car => car.id === state.selectedCarId)
-    };
-    if (!updatedCar.daysBooked.includes(action.date))
-      updatedCar.daysBooked.push(action.date);
-    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
-    let updatedCars = state.cars.map(car => car);
-    updatedCars[index] = updatedCar;
-    console.log(updatedCars[index]);
-    return {
-      ...state,
-      cars: updatedCars
-    };
-  } else if (action.type === "ADD_NEW_CAR") {
-    const cars = [...state.cars];
-    if (
-      cars.find(car => car.name.toLowerCase() === action.car.name.toLowerCase())
-    ) {
-      alert("This car already exists");
-      return { ...state };
-    }
-    action.car.id = state.cars.length + 2;
-    cars.push(action.car);
-    return {
-      ...state,
-      cars: cars
-    };
-  } else if (action.type === "SWITCH_ADD_DIALOG") {
-    let isAddCarDialogOpen = !state.isAddCarDialogOpen;
-    return {
-      ...state,
-      isAddCarDialogOpen
-    };
-  } else if (action.type === "SWITCH_EDIT_DIALOG") {
-    let isEditCarDialogOpen = !state.isEditCarDialogOpen;
-    return {
-      ...state,
-      isEditCarDialogOpen
-    };
-  } else if (action.type === "CAR_EDITED") {
-    console.log(action.car);
-    let updatedCars = state.cars.map(car => car);
-    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
-    updatedCars[index] = action.car;
-    return {
-      ...state,
-      cars: updatedCars
-    };
-  } else if (action.type === "CAR_DELETED") {
-    let updatedCars = state.cars.map(car => car);
-    let index = state.cars.findIndex(car => car.id === state.selectedCarId);
-    updatedCars.splice(index, 1);
-    console.log(updatedCars);
-    return {
-      ...state,
-      cars: updatedCars
-    };
+  let index = state.cars.findIndex(car => car.id === state.selectedCarId);
+  let updatedCars = state.cars.map(car => Object.assign({}, car));
+  let isAddCarDialogOpen = !state.isAddCarDialogOpen;
+  let isEditCarDialogOpen = !state.isEditCarDialogOpen;
+  const cars = [...state.cars];
+  const typeFilters = [...state.typeFilters];
+  let updatedCar = {
+    ...state.cars.find(car => car.id === state.selectedCarId)
+  };
+
+  switch (action.type) {
+    case "UPDATE_MAX_PRICE":
+      return { ...state, maxPrice: action.val };
+
+    case "UPDATE_FILTERS_ARRAY":
+      if (typeFilters.includes(action.val)) {
+        typeFilters.splice(typeFilters.indexOf(action.val), 1);
+      } else {
+        typeFilters.push(action.val);
+      }
+      return { ...state, typeFilters: typeFilters };
+
+    case "UPDATE_PICKUP_DATE":
+      return {
+        ...state,
+        pickUpDate: state.currentDate.clone().add(action.val, "day"),
+        dropOffDate: state.currentDate.clone().add(action.val, "day")
+      };
+    case "UPDATE_DROPOFF_DATE":
+      return {
+        ...state,
+        dropOffDate: moment(action.val)
+      };
+
+    case "UPDATE_CURRENT_DATE":
+      return {
+        ...state,
+        currentDate: state.currentDate.clone().add(action.val, "day")
+      };
+    case "UPDATE_DAYS_COUNT":
+      return {
+        ...state,
+        daysCount: action.val
+      };
+    case "UPDATE_SELECTED_CAR_INDEX":
+      return {
+        ...state,
+        selectedCarId: action.id
+      };
+    case "UPDATE_BOOKED_DAYS":
+      if (!updatedCar.daysBooked.includes(action.date))
+        updatedCar.daysBooked.push(action.date);
+      updatedCars[index] = updatedCar;
+      return {
+        ...state,
+        cars: updatedCars
+      };
+    case "ADD_NEW_CAR":
+      if (
+        cars.find(
+          car => car.name.toLowerCase() === action.car.name.toLowerCase()
+        )
+      ) {
+        alert("This car already exists");
+        return { ...state };
+      }
+      action.car.id = state.cars.length + 2;
+      cars.push(action.car);
+      return {
+        ...state,
+        cars: cars
+      };
+    case "SWITCH_ADD_DIALOG":
+      return {
+        ...state,
+        isAddCarDialogOpen
+      };
+    case "SWITCH_EDIT_DIALOG":
+      return {
+        ...state,
+        isEditCarDialogOpen
+      };
+    case "CAR_EDITED":
+      updatedCars[index] = action.car;
+      return {
+        ...state,
+        cars: updatedCars
+      };
+    case "CAR_DELETED":
+      updatedCars.splice(index, 1);
+      return {
+        ...state,
+        cars: updatedCars
+      };
   }
 
   return state;
