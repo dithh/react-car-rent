@@ -94,7 +94,6 @@ const CarsComponent = props => {
   }
 
   let editCar = props.isDialogOpen ? <EditCar /> : null;
-
   return (
     <Paper className="cars-table">
       {editCar}

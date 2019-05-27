@@ -16,6 +16,7 @@
 .cars-table{
     max-height:100%;
     overflow:auto;
+    width:82vw;
 }
 
 .disabled-link{
