@@ -11,3 +11,7 @@ export const SWITCH_ADD_DIALOG = "SWITCH_ADD_DIALOG";
 export const SWITCH_EDIT_DIALOG = "SWITCH_EDIT_DIALOG";
 export const CAR_EDITED = "CAR_EDITED";
 export const CAR_DELETED = "CAR_DELETED";
+export const AUTH_STARTED = "AUTH_STARTED";
+export const AUTH_FAILED = "AUTH_FAILED";
+export const AUTH_SUCCEEDED = "AUTH_SUCCEEDED";
+export const AUTH = "AUTH";

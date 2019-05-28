@@ -10,6 +10,11 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import Button from "@material-ui/core/Button";
 import AddCar from "../AddDialogComponent/AddDialogComponent";
+import {
+  updateMaxPrice,
+  updateFilters,
+  switchAddDialog
+} from "../../store/actionsCreators";
 
 class FiltersComponent extends Component {
   render() {
@@ -69,12 +74,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onUpdatePrice: event =>
-      dispatch({ type: "UPDATE_MAX_PRICE", val: event.target.value }),
-    OnUpdateFilters: event =>
-      dispatch({ type: "UPDATE_FILTERS_ARRAY", val: event.target.value }),
+    onUpdatePrice: event => dispatch(updateMaxPrice(event.target.value)),
+    OnUpdateFilters: event => dispatch(updateFilters(event.target.value)),
     onOpenDialog: () => {
-      dispatch({ type: "SWITCH_ADD_DIALOG" });
+      dispatch(switchAddDialog());
     }
   };
 };

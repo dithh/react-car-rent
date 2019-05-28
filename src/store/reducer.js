@@ -1,5 +1,5 @@
 import moment from "moment";
-import * as actionTypes from "./actions";
+import * as actionTypes from "./actionTypes";
 import { updateObject } from "./utils";
 const initialState = {
   cars: [
@@ -84,7 +84,10 @@ const initialState = {
   dropOffDate: moment(),
   selectedCarId: null,
   isAddCarDialogOpen: false,
-  isEditCarDialogOpen: false
+  isEditCarDialogOpen: false,
+  isLoading: false,
+  token: null,
+  userId: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -154,9 +157,20 @@ const reducer = (state = initialState, action) => {
     case actionTypes.CAR_DELETED:
       updatedCars.splice(index, 1);
       return updateObject(state, { cars: updatedCars });
+    case actionTypes.AUTH_STARTED:
+      console.log(action.username, action.password);
+      return updateObject(state, { isLoading: true });
+    case actionTypes.AUTH_FAILED:
+      return updateObject(state, { isLoading: false });
+    case actionTypes.AUTH_SUCCEEDED:
+      return updateObject(state, {
+        token: action.token,
+        isLoading: false,
+        userId: action.userId
+      });
+    default:
+      return state;
   }
-
-  return state;
 };
 
 export default reducer;
