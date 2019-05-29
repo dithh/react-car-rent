@@ -2,15 +2,12 @@
 .App{
   background-color:#f2f2f2;
   width:100vw;
+  height:100vh;
   text-align: center;
   margin:auto;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   padding:10px;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+ 
 }
 
 .main-view-wrapper {

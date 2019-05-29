@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
 import "./Authcomponent.css";
 import { auth } from "../../store/actionsCreators";
+import Spinner from "../SpinnerComponent/SpinnerComponent";
 
 const styles = theme => ({
   container: {
@@ -26,8 +27,9 @@ const styles = theme => ({
 
 class Auth extends Component {
   state = {
-    username: "Alutek95",
-    password: "1z2x3c4v"
+    username: null,
+    password: null,
+    error: true
   };
 
   onUserNameChangeHandler = event => {
@@ -38,35 +40,45 @@ class Auth extends Component {
     this.setState({ password: event.target.value });
   };
 
-  onSignInHandler = () => {
+  onClickHandler = () => {
     this.props.onSignIn(this.state.username, this.state.password);
+  };
+
+  onKeyUpHandler = event => {
+    if (event.key === "Enter") {
+      this.props.onSignIn(this.state.username, this.state.password);
+    }
   };
 
   render() {
     let { classes } = this.props;
     return (
       <Paper className="auth-wrapper">
-        <form className={classes.container}>
-          <TextField
-            className={classes.textField}
-            id="Username"
-            label="Username"
-            type="text"
-            value={this.state.username}
-            onChange={this.onUserNameChangeHandler}
-          />
-          <TextField
-            className={classes.textField}
-            id="password"
-            label="Password"
-            type="password"
-            value={this.state.password}
-            onChange={this.onPasswordChangeHandler}
-          />
-          <Button onClick={this.onSignInHandler} color="primary">
-            Sign in
-          </Button>
-        </form>
+        {this.props.isLoading ? (
+          <Spinner />
+        ) : (
+          <form className={classes.container} onKeyUp={this.onKeyUpHandler}>
+            <TextField
+              className={classes.textField}
+              id="Username"
+              label="Username"
+              type="text"
+              value={this.state.username}
+              onChange={this.onUserNameChangeHandler}
+            />
+            <TextField
+              className={classes.textField}
+              id="password"
+              label="Password"
+              type="password"
+              value={this.state.password}
+              onChange={this.onPasswordChangeHandler}
+            />
+            <Button onClick={this.onClickHandler} color="primary">
+              Sign in
+            </Button>
+          </form>
+        )}
       </Paper>
     );
   }
@@ -78,9 +90,15 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
+const mapStateToProps = state => {
+  return {
+    isLoading: state.isLoading
+  };
+};
+
 export default withStyles(styles)(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(Auth)
 );
