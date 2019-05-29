@@ -11,6 +11,7 @@ import FormControl from "@material-ui/core/FormControl";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
+import { stat } from "fs";
 
 const styles = theme => ({
   container: {
@@ -35,7 +36,10 @@ class AddDialog extends Component {
       price: 0,
       type: "",
       daysBooked: []
-    }
+    },
+    carNameError: false,
+    priceError: false,
+    selectTypeError: false
   };
 
   onTypeSelectedChangeHandler = event => {
@@ -56,12 +60,24 @@ class AddDialog extends Component {
     this.setState({ car: car });
   };
 
-  onCarAdd = car => {
+  onCarAdd = selectedCar => {
     if (this.state.car.name && this.state.car.price && this.state.car.type) {
-      this.props.onCloseDialog();
-      this.props.onAddCar(car);
+      if (
+        this.props.cars.find(
+          car => car.name.toLowerCase() === selectedCar.name.toLowerCase()
+        )
+      ) {
+        this.setState({ carNameError: true });
+      } else {
+        this.props.onCloseDialog();
+        this.props.onAddCar(selectedCar);
+      }
     } else {
-      alert("fill up the form");
+      this.setState({
+        carNameError: !this.state.car.name ? true : false,
+        priceError: this.state.car.price === 0 ? true : false,
+        selectTypeError: !this.state.car.type ? true : false
+      });
     }
   };
 
@@ -82,10 +98,15 @@ class AddDialog extends Component {
             <TextField
               className={classes.textField}
               id="car-selected"
+              required="true"
               label="Car name"
               type="text"
               value={this.state.car.name}
               onChange={this.onCarNameChangeHandler}
+              error={this.state.carNameError}
+              helperText={
+                this.state.carNameError ? "Enter valid car name" : null
+              }
             />
             <TextField
               className={classes.textField}
@@ -94,7 +115,8 @@ class AddDialog extends Component {
               id="start-date"
               label="Price per day"
               type="number"
-              error={!this.state.car.price}
+              error={this.state.priceError}
+              helperText={this.state.priceError ? "Enter valid price" : null}
             />
             <FormControl>
               <InputLabel>Car Type</InputLabel>
@@ -102,6 +124,7 @@ class AddDialog extends Component {
                 onChange={this.onTypeSelectedChangeHandler}
                 value={this.state.car.type}
                 className={classes.textField}
+                error={this.state.selectTypeError}
               >
                 {carTypesMenuItems}
               </Select>
@@ -126,7 +149,11 @@ class AddDialog extends Component {
 }
 
 const mapStateToProps = state => {
-  return { isDialogOpen: state.isAddCarDialogOpen, carTypes: state.carTypes };
+  return {
+    isDialogOpen: state.isAddCarDialogOpen,
+    carTypes: state.carTypes,
+    cars: state.cars
+  };
 };
 
 const mapDispatchToProps = dispatch => {

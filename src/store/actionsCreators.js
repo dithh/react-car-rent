@@ -41,6 +41,12 @@ export const authStart = () => {
   };
 };
 
+export const logout = () => {
+  return {
+    type: actionTypes.LOGOUT
+  };
+};
+
 export const auth = (username, password) => {
   return dispatch => {
     dispatch(authStart());

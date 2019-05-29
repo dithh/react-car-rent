@@ -30,18 +30,25 @@ const styles = theme => ({
 
 class EditDialog extends Component {
   state = {
-    carSelected: {}
+    carSelected: {},
+    carNameError: false,
+    priceError: false
   };
 
   onCarSavedHandler = car => {
-    this.props.onSave(car);
-    this.props.onClose();
+    if (car.name && parseInt(car.price) && car.type) {
+      this.props.onSave(car);
+    } else {
+      this.setState({
+        carNameError: car.name ? null : true,
+        priceError: car.price == 0 ? true : false
+      });
+    }
   };
 
   onCarDeletedHandler = () => {
     if (window.confirm("Do you realy want to delete it?")) {
       this.props.onDelete();
-      this.props.onClose();
     }
   };
 
@@ -68,7 +75,6 @@ class EditDialog extends Component {
     let carSelected = {
       ...props.cars.find(car => car.id === props.selectedCarId)
     };
-    console.log(carSelected);
     this.state.carSelected = carSelected;
   }
 
@@ -93,6 +99,10 @@ class EditDialog extends Component {
               type="text"
               onChange={this.onCarNameChangeHandler}
               value={this.state.carSelected.name}
+              error={this.state.carNameError}
+              helperText={
+                this.state.carNameError ? "Enter valid car name" : null
+              }
             />
             <TextField
               className={classes.textField}
@@ -101,6 +111,8 @@ class EditDialog extends Component {
               type="number"
               value={this.state.carSelected.price}
               onChange={this.onCarPriceChangeHandler}
+              error={this.state.priceError}
+              helperText={this.state.priceError ? "Enter valid price" : null}
             />
             <FormControl>
               <InputLabel>Car Type</InputLabel>
@@ -147,17 +159,17 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onSave: car => {
-      if (car.name && car.price && car.type) {
+      if (car.name && parseInt(car.price) && car.type) {
         dispatch({ type: "CAR_EDITED", car: car });
-      } else {
-        alert("Fill up the form");
+        dispatch({ type: "SWITCH_EDIT_DIALOG" });
       }
-    },
-    onClose: () => {
-      dispatch({ type: "SWITCH_EDIT_DIALOG" });
     },
     onDelete: () => {
       dispatch({ type: "CAR_DELETED" });
+      dispatch({ type: "SWITCH_EDIT_DIALOG" });
+    },
+    onClose: () => {
+      dispatch({ type: "SWITCH_EDIT_DIALOG" });
     }
   };
 };

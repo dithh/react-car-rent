@@ -71,6 +71,11 @@ const Booking = props => {
         <TextField
           className={classes.textField}
           error={props.pickUpDate.isAfter(props.dropOffDate) ? true : false}
+          helperText={
+            props.pickUpDate.isAfter(props.dropOffDate)
+              ? "Select valid date"
+              : null
+          }
           id="end-date"
           label="Drop Off Date"
           onChange={props.onDropOffDateUpdate}

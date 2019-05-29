@@ -15,3 +15,4 @@ export const AUTH_STARTED = "AUTH_STARTED";
 export const AUTH_FAILED = "AUTH_FAILED";
 export const AUTH_SUCCEEDED = "AUTH_SUCCEEDED";
 export const AUTH = "AUTH";
+export const LOGOUT = "LOGOUT";

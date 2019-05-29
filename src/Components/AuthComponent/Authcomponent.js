@@ -1,4 +1,4 @@
-import React, { Component, setState } from "react";
+import React, { Component } from "react";
 import TextField from "@material-ui/core/TextField";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
@@ -27,9 +27,8 @@ const styles = theme => ({
 
 class Auth extends Component {
   state = {
-    username: null,
-    password: null,
-    error: true
+    username: "",
+    password: ""
   };
 
   onUserNameChangeHandler = event => {
@@ -71,6 +70,8 @@ class Auth extends Component {
               id="password"
               label="Password"
               type="password"
+              error={this.props.error}
+              helperText={this.props.error ? "Invalid username/password" : null}
               value={this.state.password}
               onChange={this.onPasswordChangeHandler}
             />
@@ -92,7 +93,8 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
   return {
-    isLoading: state.isLoading
+    isLoading: state.isLoading,
+    error: state.authError
   };
 };
 

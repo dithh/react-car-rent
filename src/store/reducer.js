@@ -86,8 +86,9 @@ const initialState = {
   isAddCarDialogOpen: false,
   isEditCarDialogOpen: false,
   isLoading: false,
-  token: null,
-  userId: null
+  token: 123,
+  userId: null,
+  authError: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -136,14 +137,6 @@ const reducer = (state = initialState, action) => {
         return updateObject(state, { cars: updatedCars });
       }
     case actionTypes.ADD_NEW_CAR:
-      if (
-        cars.find(
-          car => car.name.toLowerCase() === action.car.name.toLowerCase()
-        )
-      ) {
-        alert("This car already exists");
-        return updateObject(state);
-      }
       action.car.id = state.cars.length + 2;
       cars.push(action.car);
       return updateObject(state, { cars: cars });
@@ -161,12 +154,16 @@ const reducer = (state = initialState, action) => {
       console.log(action.username, action.password);
       return updateObject(state, { isLoading: true });
     case actionTypes.AUTH_FAILED:
-      return updateObject(state, { isLoading: false });
+      return updateObject(state, { isLoading: false, authError: true });
     case actionTypes.AUTH_SUCCEEDED:
       return updateObject(state, {
         token: action.token,
         isLoading: false,
         userId: action.userId
+      });
+    case actionTypes.LOGOUT:
+      return updateObject(state, {
+        token: null
       });
     default:
       return state;

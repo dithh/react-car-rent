@@ -13,7 +13,8 @@ import AddCar from "../AddDialogComponent/AddDialogComponent";
 import {
   updateMaxPrice,
   updateFilters,
-  switchAddDialog
+  switchAddDialog,
+  logout
 } from "../../store/actionsCreators";
 
 class FiltersComponent extends Component {
@@ -57,6 +58,9 @@ class FiltersComponent extends Component {
           <Button color="primary" onClick={this.props.onOpenDialog}>
             Add a car
           </Button>
+          <Button color="secondary" onClick={this.props.onLogout}>
+            Logout
+          </Button>
         </FormControl>
       </div>
     );
@@ -76,9 +80,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onUpdatePrice: event => dispatch(updateMaxPrice(event.target.value)),
     OnUpdateFilters: event => dispatch(updateFilters(event.target.value)),
-    onOpenDialog: () => {
-      dispatch(switchAddDialog());
-    }
+    onOpenDialog: () => dispatch(switchAddDialog()),
+    onLogout: () => dispatch(logout())
   };
 };
 
