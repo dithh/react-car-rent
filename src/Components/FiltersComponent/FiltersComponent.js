@@ -21,7 +21,7 @@ class FiltersComponent extends Component {
   render() {
     let addCar = this.props.isDialogOpen ? <AddCar /> : null;
     return (
-      <div>
+      <aside>
         {addCar}
         <FormControl>
           <FormLabel>Select car types</FormLabel>
@@ -62,7 +62,7 @@ class FiltersComponent extends Component {
             Logout
           </Button>
         </FormControl>
-      </div>
+      </aside>
     );
   }
 }

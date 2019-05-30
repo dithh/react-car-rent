@@ -8,7 +8,7 @@ class Header extends Component {
       .clone()
       .add(this.props.daysCount - 1, "day");
     return (
-      <div className="header">
+      <header className="header">
         <Button
           variant="outlined"
           color="primary"
@@ -55,7 +55,7 @@ class Header extends Component {
             Month
           </Button>
         </span>
-      </div>
+      </header>
     );
   }
 }

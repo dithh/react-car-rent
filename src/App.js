@@ -10,8 +10,13 @@ import Filter from "./Components/FiltersComponent/FiltersComponent";
 import Cars from "./Components/CarsComponent/CarsComponent";
 import Booking from "./Components/BookingComponent/BookingComponent";
 import Auth from "./Components/AuthComponent/Authcomponent";
+import { authCheckState } from "./store/actionsCreators";
 
 class App extends Component {
+  componentDidMount() {
+    this.props.onTryAutoSignIn();
+  }
+
   render() {
     return (
       <div className="App">
@@ -42,30 +47,6 @@ class App extends Component {
             <Route path="/booking:car" exact component={Booking} />
           </BrowserRouter>
         )}
-        {/* <Auth /> */}
-        {/* <BrowserRouter>
-          <Route
-            path="/"
-            exact
-            render={() => {
-              return (
-                <section className="main-view-wrapper">
-                  <Paper className="filters-wrapper">
-                    <Filter
-                      typeSelectedHandler={() => this.typeSelectedHandler}
-                      changeMaxPriceHandler={() => this.changeMaxPriceHandler}
-                    />
-                  </Paper>
-                  <Paper className="calendar-wrapper">
-                    {" "}
-                    <Cars />
-                  </Paper>
-                </section>
-              );
-            }}
-          />
-          <Route path="/booking:car" exact component={Booking} />
-        </BrowserRouter> */}
       </div>
     );
   }
@@ -77,4 +58,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    onTryAutoSignIn: () => dispatch(authCheckState())
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);

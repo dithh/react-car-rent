@@ -105,8 +105,7 @@ const CarsComponent = props => {
             {tableHeader}
           </TableRow>
         </TableHead>
-        {carsRows}
-        <TableBody />
+        <TableBody>{carsRows}</TableBody>
       </Table>
     </Paper>
   );

@@ -1,19 +1,17 @@
 
 .App{
   background-color:#f2f2f2;
-  width:100vw;
-  height:100vh;
+  min-width:100vw;
+  min-height:100vh;
   text-align: center;
   margin:auto;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   padding:10px;
- 
 }
 
 .main-view-wrapper {
   display:flex;
   margin:auto;
-  height: 90vh;
 }
 
 .filters-wrapper{
@@ -25,7 +23,8 @@
 .calendar-wrapper{
   margin:10px;
   padding-top:10px;
-
+  height:90vh;
+  overflow: auto;
 }
 
 @media only screen and (max-width:1000px)

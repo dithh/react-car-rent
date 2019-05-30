@@ -86,8 +86,7 @@ const initialState = {
   isAddCarDialogOpen: false,
   isEditCarDialogOpen: false,
   isLoading: false,
-  token: 123,
-  userId: null,
+  token: null,
   authError: false
 };
 

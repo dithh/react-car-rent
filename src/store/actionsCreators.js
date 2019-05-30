@@ -41,9 +41,40 @@ export const authStart = () => {
   };
 };
 
+export const checkTimeOut = expirationTime => {
+  return dispatch => {
+    setTimeout(() => {
+      dispatch(logout());
+      alert("Your session expired");
+    }, expirationTime * 1000);
+  };
+};
+
 export const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("expirationDate");
   return {
     type: actionTypes.LOGOUT
+  };
+};
+
+export const authCheckState = () => {
+  return dispatch => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      dispatch(logout());
+    } else {
+      const expirationDate = new Date(localStorage.getItem("expirationDate"));
+      if (expirationDate > new Date()) {
+        let timeout = (expirationDate.getTime() - new Date().getTime()) / 1000;
+        dispatch(authSucceed(token, expirationDate));
+        dispatch(
+          checkTimeOut((expirationDate.getTime() - new Date().getTime()) / 1000)
+        );
+      } else {
+        dispatch(logout());
+      }
+    }
   };
 };
 
@@ -60,7 +91,13 @@ export const auth = (username, password) => {
     axios
       .post(url, authData)
       .then(response => {
+        const expirationDate = new Date(
+          new Date().getTime() + response.data.expiresIn * 1000
+        );
+        localStorage.setItem("token", response.data.idToken);
+        localStorage.setItem("expirationDate", expirationDate);
         dispatch(authSucceed(response.data.idToken, response.data.localId));
+        dispatch(checkTimeOut(response.data.expiresIn));
       })
       .catch(error => {
         dispatch(authFailed());
