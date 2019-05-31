@@ -4,8 +4,6 @@ import { Paper } from "@material-ui/core";
 import { connect } from "react-redux";
 
 import "./App.css";
-import "./Components/HeaderComponent/HeaderComponent.css";
-import "./Components/CarsComponent/CarsComponent.css";
 import Filter from "./Components/FiltersComponent/FiltersComponent";
 import Cars from "./Components/CarsComponent/CarsComponent";
 import Booking from "./Components/BookingComponent/BookingComponent";

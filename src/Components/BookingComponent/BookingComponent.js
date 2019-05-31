@@ -5,8 +5,7 @@ import { Paper } from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
-
-import "../BookingComponent/BookingComponent.css";
+import styled from "styled-components";
 
 const styles = theme => ({
   container: {
@@ -23,6 +22,22 @@ const styles = theme => ({
     width: 200
   }
 });
+
+const FormWrapper = styled(Paper)`
+  padding: 10px;
+  width: 250px;
+  margin: auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+`;
+
+const ControlsWrapper = styled.span`
+  display: flex;
+  justify-content: space-between;
+`;
 
 const Booking = props => {
   const { classes } = props;
@@ -47,7 +62,7 @@ const Booking = props => {
   };
 
   return (
-    <Paper className="form-wrapper">
+    <FormWrapper>
       <form className={classes.textField}>
         <TextField
           className="form-input"
@@ -82,14 +97,16 @@ const Booking = props => {
           type="date"
           value={props.dropOffDate.format("YYYY-MM-DD")}
         />
-        <span className="controls-wrapper">
-          <Link to="/">Go back!</Link>
-          <Button onClick={onBooking} color="primary" variant="contained">
+        <ControlsWrapper>
+          <Button component={Link} to="/">
+            Go back!
+          </Button>
+          <Button onClick={onBooking} color="primary">
             Book it!
           </Button>{" "}
-        </span>
+        </ControlsWrapper>
       </form>
-    </Paper>
+    </FormWrapper>
   );
 };
 

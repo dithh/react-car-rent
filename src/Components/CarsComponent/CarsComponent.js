@@ -9,10 +9,20 @@ import TableRow from "@material-ui/core/TableRow";
 import Header from "../HeaderComponent/HeaderComponent";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
+import styled from "styled-components";
 
-import "../CarComponent/CarComponent.css";
 import Car from "../CarComponent/CarComponent";
 import EditCar from "../EditCarDialogComponent/EditCarDialogComponent";
+
+const CarTable = styled(Paper)`
+  overflow: auto;
+  width: 82vw;
+`;
+
+const StyledLink = styled(Link)`
+  pointer-events: ${props => (props.disabled ? "none" : "auto")};
+  display: ${props => (props.disabled ? "none" : "auto")};
+`;
 
 const CarsComponent = props => {
   let daysCount = props.daysCount;
@@ -42,17 +52,27 @@ const CarsComponent = props => {
     while (daysCount) {
       emptyCells.push(
         <TableCell key={daysCount}>
-          <Link
-            className={
+          <StyledLink
+            disabled={
               car.daysBooked.includes(
                 props.currentDate
                   .clone()
                   .add(i, "day")
                   .format("YYYY-MM-DD")
               )
-                ? "disabled-link"
-                : null
+                ? true
+                : false
             }
+            // className={
+            //   car.daysBooked.includes(
+            //     props.currentDate
+            //       .clone()
+            //       .add(i, "day")
+            //       .format("YYYY-MM-DD")
+            //   )
+            //     ? disabled
+            //     : null
+            // }
             to={"/booking" + car.name}
           >
             {" "}
@@ -63,7 +83,7 @@ const CarsComponent = props => {
             >
               Book
             </Button>
-          </Link>
+          </StyledLink>
         </TableCell>
       );
       daysCount--;
@@ -95,7 +115,7 @@ const CarsComponent = props => {
 
   let editCar = props.isDialogOpen ? <EditCar /> : null;
   return (
-    <Paper className="cars-table">
+    <CarTable>
       {editCar}
       <Header />
       <Table>
@@ -107,7 +127,7 @@ const CarsComponent = props => {
         </TableHead>
         <TableBody>{carsRows}</TableBody>
       </Table>
-    </Paper>
+    </CarTable>
   );
 };
 

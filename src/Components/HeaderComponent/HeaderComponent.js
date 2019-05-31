@@ -10,6 +10,12 @@ const StyledHeader = styled.header`
   padding: 10px;
 `;
 
+const Arrow = styled.span`
+  :hover {
+    cursor: pointer;
+  }
+`;
+
 class Header extends Component {
   render() {
     let endDate = this.props.currentDate
@@ -25,20 +31,18 @@ class Header extends Component {
           Today
         </Button>
         <span>
-          <span
-            className="arrow"
+          <Arrow
             onClick={this.props.onDateChange.bind(this, -this.props.daysCount)}
           >
             {"<"}
-          </span>{" "}
+          </Arrow>{" "}
           {this.props.currentDate.format("DD MMM")} -
           {endDate.format("DD MMM YYYY")}
-          <span
-            className="arrow"
+          <Arrow
             onClick={this.props.onDateChange.bind(this, this.props.daysCount)}
           >
             {">"}
-          </span>
+          </Arrow>
         </span>
         <span>
           <Button

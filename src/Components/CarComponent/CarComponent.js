@@ -1,11 +1,20 @@
 import React from "react";
 import { connect } from "react-redux";
+import styled from "styled-components";
+
+const CarName = styled.span`
+  display: block;
+`;
+
+const CarPrice = styled.span`
+  color: gray;
+`;
 
 const CarComponent = props => {
   return (
-    <div className="car" onClick={props.onOpenDialog.bind(this, props.car.id)}>
-      <span className="car-name">{props.car.name}</span>
-      <span className="car-price">${props.car.price}</span>
+    <div onClick={props.onOpenDialog.bind(this, props.car.id)}>
+      <CarName className="car-name">{props.car.name}</CarName>
+      <CarPrice className="car-price">${props.car.price}</CarPrice>
     </div>
   );
 };

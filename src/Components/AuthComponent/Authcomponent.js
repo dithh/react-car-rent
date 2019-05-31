@@ -4,9 +4,9 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import { Paper } from "@material-ui/core";
-import "./Authcomponent.css";
 import { auth } from "../../store/actionsCreators";
 import Spinner from "../SpinnerComponent/SpinnerComponent";
+import styled from "styled-components";
 
 const styles = theme => ({
   container: {
@@ -25,7 +25,18 @@ const styles = theme => ({
   }
 });
 
-class Auth extends Component {
+const AuthWrapper = styled(Paper)`
+  width: 250px;
+  margin: auto;
+  padding: 10px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+`;
+
+const Auth = class Auth extends Component {
   state = {
     username: "",
     password: ""
@@ -52,7 +63,7 @@ class Auth extends Component {
   render() {
     let { classes } = this.props;
     return (
-      <Paper className="auth-wrapper">
+      <AuthWrapper>
         {this.props.isLoading ? (
           <Spinner />
         ) : (
@@ -80,10 +91,10 @@ class Auth extends Component {
             </Button>
           </form>
         )}
-      </Paper>
+      </AuthWrapper>
     );
   }
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {
