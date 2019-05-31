@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
+import styled from "styled-components";
+
+const StyledHeader = styled.header`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+`;
 
 class Header extends Component {
   render() {
@@ -8,7 +16,7 @@ class Header extends Component {
       .clone()
       .add(this.props.daysCount - 1, "day");
     return (
-      <header className="header">
+      <StyledHeader>
         <Button
           variant="outlined"
           color="primary"
@@ -55,7 +63,7 @@ class Header extends Component {
             Month
           </Button>
         </span>
-      </header>
+      </StyledHeader>
     );
   }
 }
